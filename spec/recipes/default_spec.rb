@@ -10,4 +10,10 @@ describe "chef-rabbit_mq::default" do
   it 'starts the server' do
     expect(chef_run).to start_service 'rabbitmq-server'
   end
+
+  describe 'configuration' do
+    it 'creates a configuration file' do
+      expect(chef_run).to create_template('/etc/rabbitmq/rabbitmq-env.conf')
+    end
+  end
 end

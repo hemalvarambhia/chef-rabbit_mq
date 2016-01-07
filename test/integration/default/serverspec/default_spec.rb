@@ -14,4 +14,10 @@ describe "installing RabbitMQ" do
   describe service('rabbitmq-server') do
     it { should be_running }
   end
+
+  describe 'configuration' do
+    describe file('/etc/rabbitmq/rabbitmq-env.conf') do
+      it { should exist }
+    end
+  end
 end

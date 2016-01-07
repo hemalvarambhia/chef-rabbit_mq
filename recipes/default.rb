@@ -11,6 +11,10 @@ package 'rabbitmq-server' do
   action :install
 end
 
+template '/etc/rabbitmq/rabbitmq-env.conf' do
+  action :create
+end
+
 service 'rabbitmq-server' do
   action :start
 end
