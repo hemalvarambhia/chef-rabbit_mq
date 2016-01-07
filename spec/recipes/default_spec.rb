@@ -6,4 +6,8 @@ describe "chef-rabbit_mq::default" do
   it 'installs RabbitMQ server' do
     expect(chef_run).to install_package 'rabbitmq-server'
   end
+ 
+  it 'starts the server' do
+    expect(chef_run).to start_service 'rabbitmq-server'
+  end
 end
