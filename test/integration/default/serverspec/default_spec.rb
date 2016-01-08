@@ -7,6 +7,16 @@ describe "installing RabbitMQ" do
     end
   end
 
+  describe 'prerequisites' do
+    describe port(22) do
+      it { should be_listening.with('tcp')}
+    end
+
+    describe port(5672) do
+      it { should be_listening}
+    end
+  end
+
   describe package('rabbitmq-server') do
     it { should be_installed }
   end
