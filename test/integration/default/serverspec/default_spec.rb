@@ -18,6 +18,10 @@ describe "installing RabbitMQ" do
   describe 'configuration' do
     describe file('/etc/rabbitmq/rabbitmq-env.conf') do
       it { should exist }
+
+      its(:content) do 
+        should =~/NODENAME=rabbit@default-ubuntu-1404/ 
+      end
     end
   end
 end
