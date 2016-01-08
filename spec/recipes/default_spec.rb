@@ -3,6 +3,10 @@ require 'chefspec'
 describe "chef-rabbit_mq::default" do
   let(:chef_run) { ChefSpec::SoloRunner.new.converge(described_recipe) }
 
+  it 'updates the APT repos' do
+    expect(chef_run).to include_recipe 'apt::default'
+  end
+
   it 'installs RabbitMQ server' do
     expect(chef_run).to install_package 'rabbitmq-server'
   end

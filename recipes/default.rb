@@ -7,6 +7,8 @@
 # All rights reserved - Do Not Redistribute
 #
 
+include_recipe 'apt::default'
+
 package 'rabbitmq-server' do
   action :install
 end
