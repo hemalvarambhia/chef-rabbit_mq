@@ -20,3 +20,23 @@ end
 service 'rabbitmq-server' do
   action :start
 end
+
+execute "create queue publisher" do
+  command "rabbitmqctl add_user a_publisher publisher"
+  action :run
+end
+
+execute "create queue publisher" do
+  command "rabbitmqctl add_user a_consumer consumer"
+  action :run
+end
+
+execute "set permissions for publisher" do
+  command "rabbitmqctl set_permissions -p / a_publisher \"hello\" \".*\" \"^$\""
+  action :run
+end
+
+execute "set permissions for consumer" do
+  command "rabbitmqctl set_permissions -p / a_consumer \"hello\" \"^$\" \"hello\""
+  action :run
+end
