@@ -9,6 +9,22 @@
 
 include_recipe 'apt::default'
 
+firewall 'default' do
+  action :install
+end
+
+firewall_rule 'ssh' do
+  port 22
+  protocol :tcp
+  command :allow
+end
+
+firewall_rule 'rabbitmq' do
+  port 5672
+  protocol :tcp
+  command :allow
+end
+
 package 'rabbitmq-server' do
   action :install
 end
