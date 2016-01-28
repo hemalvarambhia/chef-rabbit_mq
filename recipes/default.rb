@@ -8,6 +8,7 @@
 #
 
 include_recipe 'apt::default'
+Chef::Resource::Execute.send(:include, ChefRabbitMQ::BrokerHelper)
 
 firewall 'default' do
   action :install
@@ -37,22 +38,28 @@ service 'rabbitmq-server' do
   action :start
 end
 
-execute "create queue publisher" do
-  command "rabbitmqctl add_user a_publisher publisher"
+user = "a_publisher"
+password = "publisher"
+execute "create user #{user}" do
+  command "rabbitmqctl add_user #{user} #{password}"
+  not_if { user_exists? user }
   action :run
 end
 
-execute "create queue publisher" do
-  command "rabbitmqctl add_user a_consumer consumer"
+execute "set permissions for #{user}" do
+  command "rabbitmqctl set_permissions -p / #{user} \"^hello$\" \".*\" \"^$\""
   action :run
 end
 
-execute "set permissions for publisher" do
-  command "rabbitmqctl set_permissions -p / a_publisher \"hello\" \".*\" \"^$\""
+user = "a_consumer"
+password = "consumer"
+execute "create user #{user}" do
+  command "rabbitmqctl add_user #{user} #{password}"
+  not_if { user_exists? user }
   action :run
 end
 
 execute "set permissions for consumer" do
-  command "rabbitmqctl set_permissions -p / a_consumer \"hello\" \"^$\" \"hello\""
+  command "rabbitmqctl set_permissions -p / #{user} \"^hello$\" \"^$\" \"hello\""
   action :run
 end
