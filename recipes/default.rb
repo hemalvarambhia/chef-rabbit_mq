@@ -38,28 +38,15 @@ service 'rabbitmq-server' do
   action :start
 end
 
-user = "a_publisher"
-password = "publisher"
-execute "create user #{user}" do
-  command "rabbitmqctl add_user #{user} #{password}"
-  not_if { user_exists? user }
-  action :run
-end
+node[:accounts].each do |account|
+  execute "create user #{account[:username]}" do
+    command "rabbitmqctl add_user #{account[:username]} #{account[:password]}"
+    not_if { user_exists? account[:username] }
+    action :run
+  end
 
-execute "set permissions for #{user}" do
-  command "rabbitmqctl set_permissions -p / #{user} \"^hello$\" \".*\" \"^$\""
-  action :run
-end
-
-user = "a_consumer"
-password = "consumer"
-execute "create user #{user}" do
-  command "rabbitmqctl add_user #{user} #{password}"
-  not_if { user_exists? user }
-  action :run
-end
-
-execute "set permissions for consumer" do
-  command "rabbitmqctl set_permissions -p / #{user} \"^hello$\" \"^$\" \"hello\""
-  action :run
+  execute "set permissions for #{account[:username]}" do
+    command "rabbitmqctl set_permissions #{account[:permission]}"
+    action :run
+  end
 end
