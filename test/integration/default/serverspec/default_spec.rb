@@ -34,4 +34,10 @@ describe "installing RabbitMQ" do
       end
     end
   end
+
+  describe command "sudo rabbitmqctl list_users | grep guest" do
+    its(:stdout) {
+      should eq ""
+    }
+  end
 end

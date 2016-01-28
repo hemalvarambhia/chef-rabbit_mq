@@ -50,3 +50,10 @@ node[:rabbitmq][:accounts].each do |account|
     action :run
   end
 end
+
+execute "delete 'guest' user" do
+  command "rabbitmqctl delete_user guest"
+  only_if { user_exists? "guest" }
+  action :run
+end
+
