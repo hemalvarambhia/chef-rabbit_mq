@@ -1,13 +1,11 @@
-default[:accounts] =
+default[:rabbitmq][:accounts] =
     [
         {
             username: "a_publisher",
-            password: "publisher",
-            permission: "-p / a_publisher \"^hello$\" \".*\" \"^$\""
+            password: "publisher"
         },
         {
             username: "a_consumer",
-            password: "consumer",
-            permission: "-p / a_consumer \"^hello$\" \"^$\" \"hello\""
+            password: "consumer"
         }
     ]
