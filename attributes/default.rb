@@ -1,4 +1,4 @@
-default[:accounts] =
+default[:rabbitmq][:accounts] =
     [
         {
             username: "a_publisher",

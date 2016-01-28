@@ -38,7 +38,7 @@ service 'rabbitmq-server' do
   action :start
 end
 
-node[:accounts].each do |account|
+node[:rabbitmq][:accounts].each do |account|
   execute "create user #{account[:username]}" do
     command "rabbitmqctl add_user #{account[:username]} #{account[:password]}"
     not_if { user_exists? account[:username] }
